@@ -11,7 +11,7 @@ spec:
     - name: IMAGE_NAME
       value: dotnet-app
     - name: IMAGE_TAG
-      value: v8
+      value: v0
   pipelineRef:
     name: __USER#__-dotnet-app
   taskRunTemplate:

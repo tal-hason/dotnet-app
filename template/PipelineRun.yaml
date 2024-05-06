@@ -11,9 +11,9 @@ spec:
     - name: IMAGE_NAME
       value: dotnet-app
     - name: IMAGE_TAG
-      value: v8
+      value: v0
   pipelineRef:
-    name: __USER#__-dotnet-app
+    name: __USER__-dotnet-app
   taskRunTemplate:
     serviceAccountName: pipeline
   timeouts:
