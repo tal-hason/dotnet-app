@@ -1,0 +1,34 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  generateName: dotnet-app-
+  namespace: dotnet-app
+spec:
+  params:
+    - name: GIT_URL
+      value: 'https://github.com/__GIT-HUB-USER__/dotnet-app.git'
+    - name: REGISTRY
+      value: ghcr.io/__GIT-HUB-USER__
+    - name: IMAGE_NAME
+      value: dotnet-app
+    - name: IMAGE_TAG
+      value: v8
+  pipelineRef:
+    name: dotnet-app
+  taskRunTemplate:
+    serviceAccountName: pipeline
+  timeouts:
+    pipeline: 1h0m0s
+  workspaces:
+    - name: storage
+      volumeClaimTemplate:
+        metadata:
+          creationTimestamp: null
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 150Mi
+          volumeMode: Filesystem
+
