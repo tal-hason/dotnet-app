@@ -1,19 +1,19 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  generateName: dotnet-app-
+  generateName: cvdfg-dotnet-app-
 spec:
   params:
     - name: GIT_URL
-      value: 'https://github.com/__GIT-HUB-USER__/dotnet-app.git'
+      value: 'sdfdsfds'
     - name: REGISTRY
-      value: ghcr.io/__GIT-HUB-USER__
+      value: "sdfsdf"
     - name: IMAGE_NAME
       value: dotnet-app
     - name: IMAGE_TAG
       value: v8
   pipelineRef:
-    name: dotnet-app
+    name: __USER#__-dotnet-app
   taskRunTemplate:
     serviceAccountName: pipeline
   timeouts:
@@ -30,4 +30,3 @@ spec:
             requests:
               storage: 150Mi
           volumeMode: Filesystem
-
