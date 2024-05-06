@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "d/voOrjuq+9XPijJa+SdSuO+2gugZXmxsMqpo6YQtAEfzKOrplXRBPLv9bs6bZ1p7j0jeQn2c3Bnxpq9jTZwvg==",
+  "success": true,
+  "projectFilePath": "/home/thason/git/dotnet-app/my-app.Service/my-app.Service.csproj",
+  "expectedPackageFiles": [
+    "/home/thason/.nuget/packages/microsoft.aspnetcore.openapi/8.0.4/microsoft.aspnetcore.openapi.8.0.4.nupkg.sha512",
+    "/home/thason/.nuget/packages/microsoft.extensions.apidescription.server/3.0.0/microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "/home/thason/.nuget/packages/microsoft.openapi/1.4.3/microsoft.openapi.1.4.3.nupkg.sha512",
+    "/home/thason/.nuget/packages/swashbuckle.aspnetcore/6.2.3/swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
+    "/home/thason/.nuget/packages/swashbuckle.aspnetcore.swagger/6.2.3/swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
+    "/home/thason/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.2.3/swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
+    "/home/thason/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.2.3/swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512"
+  ],
+  "logs": []
+}
