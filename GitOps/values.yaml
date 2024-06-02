@@ -1,8 +1,8 @@
 global:
   ## Override the release name
-  nameOverride: user#
+  nameOverride: user25
   serviceName: dotnet-app
-  namespace: user#-application
+  namespace: user25-application
   runTime: dotnet
 image:
   ## Name of the image you want to build/deploy
@@ -24,7 +24,7 @@ deploy:
   #    memory: 128Mi
   ingress:
     enabled: true
-    Domain: __DOMAIN__
+    Domain: apps.cluster-5shjw.dynamic.redhatworkshops.io
     ## More information: https://docs.openshift.com/container-platform/4.6/networking/routes/secured-routes.html
     tls:
       enabled: true
