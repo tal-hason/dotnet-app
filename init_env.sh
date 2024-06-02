@@ -1,16 +1,29 @@
 #!/bin/bash
 
-# Read input from the user
-read -p "Enter the Git-Hub username: " GITHUB_USERNAME
-read -p "Enter your GitHub personal access token: " GHCR_TOKEN
-read -p "Enter your email address: " EMAIL
-read -p "Enter the Git-Hub repository URL: " GIT_REPO_URL
-read -p "Enter the workshop cluster FQDN: " CLUSTER_FQDN
-read -p "Enter the workshop user: " WORKSHOP_USER
-read -p "Enter the workshop Cluster API URL: " WORKSHOP_API_URL
-read -p "Enter the workshop Password: " WORKSHOP_PASSWORD
+# Source the environment variables file if it exists
+if [ -f ./env_vars.sh ]; then
+  source ./env_vars.sh
+fi
 
+# Function to read input if the variable is not already set
+get_input() {
+  local var_name=$1
+  local prompt=$2
+  if [ -z "${!var_name}" ]; then
+    read -p "$prompt" $var_name
+    echo "export $var_name=\"${!var_name}\"" >> ./env_vars.sh
+  fi
+}
 
+# Check and read the necessary environment variables
+get_input "GITHUB_USERNAME" "Enter the Git-Hub username: "
+get_input "GHCR_TOKEN" "Enter your GitHub personal access token: "
+get_input "EMAIL" "Enter your email address: "
+get_input "GIT_REPO_URL" "Enter the Git-Hub repository URL: "
+get_input "CLUSTER_FQDN" "Enter the workshop cluster FQDN: "
+get_input "WORKSHOP_USER" "Enter the workshop user: "
+get_input "WORKSHOP_API_URL" "Enter the workshop Cluster API URL: "
+get_input "WORKSHOP_PASSWORD" "Enter the workshop Password: "
 
 # Get the latest OC client
 wget https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/openshift-client-linux.tar.gz
@@ -20,10 +33,9 @@ wget https://mirror.openshift.com/pub/openshift-v4/clients/pipeline/latest/tkn-l
 tar xvf openshift-client-linux.tar.gz --no-same-owner
 tar xvf tkn-linux-amd64.tar.gz --no-same-owner
 
-
 rm -rf /tmp/runs
 mkdir /tmp/runs
-chmod +x yq_linux_amd64 
+chmod +x yq_linux_amd64
 mv yq_linux_amd64 /tmp/runs/yq
 mv oc kubectl tkn tkn-pac opc /tmp/runs
 
@@ -42,19 +54,20 @@ yq e ".spec.params[4].value = \"$WORKSHOP_USER-application\"" -i PipelineRun.yam
 yq e ".spec.pipelineRef.name = \"$WORKSHOP_USER-dotnet-app\"" -i PipelineRun.yaml
 
 # Update the argo-app.yaml file
-yq e ".spec.destination.namespace = \"$WORKSHOP_USER-application"\" -i GitOps/Argo-App.yaml
-yq e ".spec.sources[1].repoURL = \"$GIT_REPO_URL"\" -i GitOps/Argo-App.yaml
+yq e ".spec.destination.namespace = \"$WORKSHOP_USER-application\"" -i GitOps/Argo-App.yaml
+yq e ".spec.sources[1].repoURL = \"$GIT_REPO_URL\"" -i GitOps/Argo-App.yaml
 
 # Update the values.yaml file
-yq e ".global.nameOverride = \"$WORKSHOP_USER"\" -i GitOps/values.yaml
-yq e ".global.namespace = \"$WORKSHOP_USER-application"\" -i GitOps/values.yaml
-yq e ".global.ClusterFqdn = \"$CLUSTER_FQDN"\" -i GitOps/values.yaml
+yq e ".global.nameOverride = \"$WORKSHOP_USER\"" -i GitOps/values.yaml
+yq e ".global.namespace = \"$WORKSHOP_USER-application\"" -i GitOps/values.yaml
+yq e ".deploy.ingress.Domain = \"$CLUSTER_FQDN\"" -i GitOps/values.yaml
 
 oc login -u $WORKSHOP_USER -p $WORKSHOP_PASSWORD $WORKSHOP_API_URL --insecure-skip-tls-verify=true
 
 oc project $WORKSHOP_USER-application
 
 oc apply -f GitOps/Argo-App.yaml -n $WORKSHOP_USER-argocd
+
 # Create the k8s imagePull Secret for ghcr.io
 oc create secret docker-registry ghcr-secret \
     --docker-server=ghcr.io \
@@ -69,7 +82,6 @@ oc patch serviceaccount pipeline -p '{"imagePullSecrets":[{"name":"ghcr-secret"}
 # Add the created secret as a secret to the service account
 oc patch serviceaccount pipeline -p '{"secrets":[{"name":"ghcr-secret"}]}'
 
-# Commit latest Changes
+# Commit latest changes
 git commit -am "Init Env ended"
-
 git push

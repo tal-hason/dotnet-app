@@ -4,7 +4,6 @@ global:
   serviceName: dotnet-app
   namespace: user25-application
   runTime: dotnet
-  ClusterFqdn: cluster-5shjw.dynamic.redhatworkshops.io
 image:
   ## Name of the image you want to build/deploy
   ## Defaults to the release name
@@ -38,7 +37,6 @@ deploy:
       port: 8080
       targetPort: 8080
       protocol: TCP
-
   ## Freeform Liveness Probe. More information: https://docs.openshift.com/container-platform/4.6/applications/application-health.html#application-health-about_application-health
   livenessProbe:
     httpGet:
@@ -91,9 +89,9 @@ deploy:
 
   ## Freeform containers: More information: https://kubernetes.io/docs/concepts/workloads/pods/#pod-templates
   extraContainers:
-#  - name: my-extra-container
-#    command: ["sleep", "infinity"]
-#    image: registry.redhat.io/ubi8/ubi-minimal
+  #  - name: my-extra-container
+  #    command: ["sleep", "infinity"]
+  #    image: registry.redhat.io/ubi8/ubi-minimal
   ## For creating a Route, allowing your application to be accessed from outside the OCP cluster
   route:
     enabled: false
