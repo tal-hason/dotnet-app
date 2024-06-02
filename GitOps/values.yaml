@@ -9,7 +9,7 @@ image:
   ## Defaults to the release name
   name: ghcr.io/tal-hason/dotnet-app
   ## Tag that you want to build/deploy
-  tag: v9
+  tag: v10
 ## Application/Deployment-specific values (For configuring Deployment, Service, Route, ConfigMap, etc)
 deploy:
   ## Number of pod replicas to deploy
@@ -39,17 +39,17 @@ deploy:
       protocol: TCP
   ## Freeform Liveness Probe. More information: https://docs.openshift.com/container-platform/4.6/applications/application-health.html#application-health-about_application-health
   livenessProbe:
-    # httpGet:
-    #   path: /health/liveliness
-    #   port: http
+  # httpGet:
+  #   path: /health/liveliness
+  #   port: http
   ## If you don't want a livenessProbe, override like this in your values file
   # livenessProbe: ''
 
   ## Freeform Readiness Probe. More information: https://docs.openshift.com/container-platform/4.6/applications/application-health.html#application-health-about_application-health
   readinessProbe:
-    # httpGet:
-    #   path: /health/readiness
-    #   port: http
+  # httpGet:
+  #   path: /health/readiness
+  #   port: http
   ## If you don't want a readinessProbe, override like this in your values file
   # readinessProve: ''
 
