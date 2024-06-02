@@ -23,7 +23,13 @@ deploy:
   #  requests:
   #    cpu: 50m
   #    memory: 128Mi
-
+  ingress:
+    enabled: true
+    Domain: cluster-5shjw.dynamic.redhatworkshops.io
+    ## More information: https://docs.openshift.com/container-platform/4.6/networking/routes/secured-routes.html
+    tls:
+      enabled: true
+      termination: edge
   ## Type of service to create. More information: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
   serviceType: ClusterIP
   ## Freeform service ports. More information: https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service
@@ -32,20 +38,7 @@ deploy:
       port: 8080
       targetPort: 8080
       protocol: TCP
-  ## For creating a Route, allowing your application to be accessed from outside the OCP cluster
-  route:
-    enabled: true
-    targetPort: "http"
-    ## More information: https://docs.openshift.com/container-platform/4.6/networking/routes/secured-routes.html
-    tls:
-      enabled: true
-      termination: edge
-      insecureEdgeTerminationPolicy: Allow
-      ## IMPORTANT: Do not check 'key' into git!
-      key:
-      caCertificate:
-      certificate:
-      destinationCACertificate:
+
   ## Freeform Liveness Probe. More information: https://docs.openshift.com/container-platform/4.6/applications/application-health.html#application-health-about_application-health
   livenessProbe:
     httpGet:
@@ -101,3 +94,17 @@ deploy:
 #  - name: my-extra-container
 #    command: ["sleep", "infinity"]
 #    image: registry.redhat.io/ubi8/ubi-minimal
+  ## For creating a Route, allowing your application to be accessed from outside the OCP cluster
+  route:
+    enabled: true
+    targetPort: "http"
+    ## More information: https://docs.openshift.com/container-platform/4.6/networking/routes/secured-routes.html
+    tls:
+      enabled: true
+      termination: edge
+      insecureEdgeTerminationPolicy: Allow
+      ## IMPORTANT: Do not check 'key' into git!
+      key:
+      caCertificate:
+      certificate:
+      destinationCACertificate:
