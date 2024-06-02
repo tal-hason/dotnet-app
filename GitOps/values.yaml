@@ -34,7 +34,7 @@ deploy:
       protocol: TCP
   ## For creating a Route, allowing your application to be accessed from outside the OCP cluster
   route:
-    enabled: false
+    enabled: true
     targetPort: "8080"
     ## More information: https://docs.openshift.com/container-platform/4.6/networking/routes/secured-routes.html
     tls:
