@@ -7,9 +7,9 @@ global:
 image:
   ## Name of the image you want to build/deploy
   ## Defaults to the release name
-  name: ghcr.io$GITHUB_USERNAME
+  name: ghcr.io/tal-hason
   ## Tag that you want to build/deploy
-  tag: v7
+  tag: v8
 ## Application/Deployment-specific values (For configuring Deployment, Service, Route, ConfigMap, etc)
 deploy:
   ## Number of pod replicas to deploy
