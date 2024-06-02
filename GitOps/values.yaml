@@ -40,7 +40,7 @@ deploy:
     tls:
       enabled: true
       termination: edge
-      insecureEdgeTerminationPolicy: Redirect
+      insecureEdgeTerminationPolicy: Allow
       ## IMPORTANT: Do not check 'key' into git!
       key:
       caCertificate:
