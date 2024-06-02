@@ -35,7 +35,12 @@ download_and_extract() {
   local binary_name=$2
 
   if [ ! -f $RUNS_DIR/$binary_name ]; then
-    wget $url -O $tar_file
+    wget -q $url -O $tar_file
+    if [[ $? -ne 0 ]]; then
+      echo "Failed to download $tar_file from $url"
+      return 1
+    fi
+
     if [[ $tar_file == *.tar.gz ]]; then
       tar xvf $tar_file --no-same-owner -C $RUNS_DIR || { echo "Failed to extract $tar_file"; rm $tar_file; return 1; }
     else
@@ -69,7 +74,8 @@ export PATH="${PATH}:${RUNS_DIR}"
 # Set the WORKSHOP_USER environment variable
 export WORKSHOP_USER
 
-rm -f openshift-client-linux.tar.gz README.md tkn-linux-amd64.tar.gz LICENSE
+# Clean up any remaining tar files
+rm -f openshift-client-linux.tar.gz tkn-linux-amd64.tar.gz LICENSE README.md
 
 # Update the PipelineRun.yaml file
 yq e ".metadata.generateName = \"$WORKSHOP_USER-dotnet-app-\"" -i GitOps/PipelineRun.yaml
