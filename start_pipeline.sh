@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export PATH=$(echo "${PATH}:/tmp/runs")
+
 # Extract the numeric part of the tag
 TAG=$(yq eval ".spec.params[3].value" PipelineRun.yaml)
 NUMERIC_TAG=$(echo $TAG | sed 's/[^0-9]*//g')
