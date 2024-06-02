@@ -25,33 +25,52 @@ get_input "WORKSHOP_USER" "Enter the workshop user: "
 get_input "WORKSHOP_API_URL" "Enter the workshop Cluster API URL: "
 get_input "WORKSHOP_PASSWORD" "Enter the workshop Password: "
 
-# Get the latest OC client
-wget https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/openshift-client-linux.tar.gz
-wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
-wget https://mirror.openshift.com/pub/openshift-v4/clients/pipeline/latest/tkn-linux-amd64.tar.gz
+# Directory to store the binaries
+RUNS_DIR="/tmp/runs"
 
-tar xvf openshift-client-linux.tar.gz --no-same-owner
-tar xvf tkn-linux-amd64.tar.gz --no-same-owner
+# Function to download and extract files if they don't already exist
+download_and_extract() {
+  local url=$1
+  local tar_file=$(basename $url)
+  local binary_name=$2
 
-rm -rf /tmp/runs
-mkdir /tmp/runs
-chmod +x yq_linux_amd64
-mv yq_linux_amd64 /tmp/runs/yq
-mv oc kubectl tkn tkn-pac opc /tmp/runs
+  if [ ! -f $RUNS_DIR/$binary_name ]; then
+    wget $url -O $tar_file
+    tar xvf $tar_file --no-same-owner -C $RUNS_DIR
+    rm $tar_file
+  else
+    echo "$binary_name already exists in $RUNS_DIR, skipping download."
+  fi
+}
 
-export PATH=$(echo "${PATH}:/tmp/runs")
+# Create the runs directory if it doesn't exist
+mkdir -p $RUNS_DIR
+
+# Download and extract the necessary binaries
+download_and_extract "https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/openshift-client-linux.tar.gz" "oc"
+download_and_extract "https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64" "yq_linux_amd64"
+download_and_extract "https://mirror.openshift.com/pub/openshift-v4/clients/pipeline/latest/tkn-linux-amd64.tar.gz" "tkn"
+
+# Move binaries to the runs directory if they are not already there
+for binary in oc kubectl tkn tkn-pac yq_linux_amd64; do
+  if [ -f $binary ]; then
+    chmod +x $binary
+    mv $binary $RUNS_DIR
+  fi
+done
+
+# Set the PATH to include the runs directory
+export PATH="${PATH}:${RUNS_DIR}"
 
 # Set the WORKSHOP_USER environment variable
 export WORKSHOP_USER
 
-rm openshift-client-linux.tar.gz README.md tkn-linux-amd64.tar.gz LICENSE
-
 # Update the PipelineRun.yaml file
-yq e ".metadata.generateName = \"$WORKSHOP_USER-dotnet-app-\"" -i GitOps/PipelineRun.yaml
-yq e ".spec.params[0].value = \"$GIT_REPO_URL\"" -i GitOps/PipelineRun.yaml
-yq e ".spec.params[1].value = \"$GITHUB_USERNAME\"" -i GitOps/PipelineRun.yaml
-yq e ".spec.params[4].value = \"$WORKSHOP_USER-application\"" -i GitOps/PipelineRun.yaml
-yq e ".spec.pipelineRef.name = \"$WORKSHOP_USER-dotnet-app\"" -i GitOps/PipelineRun.yaml
+yq e ".metadata.generateName = \"$WORKSHOP_USER-dotnet-app-\"" -i PipelineRun.yaml
+yq e ".spec.params[0].value = \"$GIT_REPO_URL\"" -i PipelineRun.yaml
+yq e ".spec.params[1].value = \"$GITHUB_USERNAME\"" -i PipelineRun.yaml
+yq e ".spec.params[4].value = \"$WORKSHOP_USER-application\"" -i PipelineRun.yaml
+yq e ".spec.pipelineRef.name = \"$WORKSHOP_USER-dotnet-app\"" -i PipelineRun.yaml
 
 # Update the argo-app.yaml file
 yq e ".spec.destination.namespace = \"$WORKSHOP_USER-application\"" -i GitOps/Argo-App.yaml
@@ -62,10 +81,13 @@ yq e ".global.nameOverride = \"$WORKSHOP_USER\"" -i GitOps/values.yaml
 yq e ".global.namespace = \"$WORKSHOP_USER-application\"" -i GitOps/values.yaml
 yq e ".deploy.ingress.Domain = \"$CLUSTER_FQDN\"" -i GitOps/values.yaml
 
+# Log in to the OpenShift cluster
 oc login -u $WORKSHOP_USER -p $WORKSHOP_PASSWORD $WORKSHOP_API_URL --insecure-skip-tls-verify=true
 
+# Set the project
 oc project $WORKSHOP_USER-application
 
+# Apply the Argo CD application
 oc apply -f GitOps/Argo-App.yaml -n $WORKSHOP_USER-argocd
 
 # Create the k8s imagePull Secret for ghcr.io
@@ -77,10 +99,10 @@ oc create secret docker-registry ghcr-secret \
     -n $WORKSHOP_USER-argocd
 
 # Patch the serviceAccount pipeline to use the imagePull Secret
-oc patch serviceaccount pipeline -p '{"imagePullSecrets":[{"name":"ghcr-secret"}]}' -n $WORKSHOP_USER-argocd
+oc patch serviceaccount pipeline -p '{"imagePullSecrets":[{"name":"ghcr-secret"}]}'
 
 # Add the created secret as a secret to the service account
-oc patch serviceaccount pipeline -p '{"secrets":[{"name":"ghcr-secret"}]}' -n $WORKSHOP_USER-argocd
+oc patch serviceaccount pipeline -p '{"secrets":[{"name":"ghcr-secret"}]}'
 
 # Commit latest changes
 git commit -am "Init Env ended"
