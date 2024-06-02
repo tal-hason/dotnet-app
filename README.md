@@ -7,6 +7,7 @@ to initialize the enviormnet, run the "init_env.sh"
 ```
 
 1. in the script you need to provide the following details:
+
     a. Git-Hub username
     b. GitHub personal access token
     c. email address
