@@ -31,7 +31,7 @@ echo "Running New Pipeline with PipelineRun: $PIPELINE_RUN_NAME"
 tkn pr logs $PIPELINE_RUN_NAME -n $WORKSHOP_USER-argocd -f
 
 # Patch the Values file with the new image and tag
-yq eval ".image.name = \"ghcr.io/$GITHUB_USERNAME\"" -i GitOps/values.yaml
+yq eval ".image.name = \"ghcr.io/$GITHUB_USERNAME/dotnet-app\"" -i GitOps/values.yaml
 yq eval ".image.tag = \"$NEW_TAG\"" -i GitOps/values.yaml
 
 git commit -am "new image tag"
