@@ -30,7 +30,7 @@ deploy:
   ports:
     - name: http
       port: 8080
-      targetPort: 8080
+      targetPort: "8080"
       protocol: TCP
   ## For creating a Route, allowing your application to be accessed from outside the OCP cluster
   route:
