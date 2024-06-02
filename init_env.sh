@@ -71,3 +71,5 @@ oc patch serviceaccount pipeline -p '{"secrets":[{"name":"ghcr-secret"}]}'
 
 # Commit latest Changes
 git commit -am "Init Env ended"
+
+git push
