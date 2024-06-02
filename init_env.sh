@@ -35,15 +35,11 @@ download_and_extract() {
   local binary_name=$2
 
   if [ ! -f $RUNS_DIR/$binary_name ]; then
-    wget -q $url -O $tar_file
-    if [[ $? -ne 0 ]]; then
-      echo "Failed to download $tar_file from $url"
-      return 1
-    fi
-
+    wget $url -O $tar_file
     if [[ $tar_file == *.tar.gz ]]; then
       tar xvf $tar_file --no-same-owner -C $RUNS_DIR || { echo "Failed to extract $tar_file"; rm $tar_file; return 1; }
     else
+      chmod +x $tar_file
       mv $tar_file $RUNS_DIR/$binary_name
     fi
     rm $tar_file
@@ -59,9 +55,10 @@ mkdir -p $RUNS_DIR
 download_and_extract "https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/openshift-client-linux.tar.gz" "oc"
 download_and_extract "https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64" "yq_linux_amd64"
 download_and_extract "https://mirror.openshift.com/pub/openshift-v4/clients/pipeline/latest/tkn-linux-amd64.tar.gz" "tkn"
+download_and_extract "https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64" "argocd"
 
 # Move binaries to the runs directory if they are not already there
-for binary in oc kubectl tkn tkn-pac yq_linux_amd64; do
+for binary in oc kubectl tkn tkn-pac yq_linux_amd64 argocd; do
   if [ -f $binary ]; then
     chmod +x $binary
     mv $binary $RUNS_DIR
@@ -74,8 +71,7 @@ export PATH="${PATH}:${RUNS_DIR}"
 # Set the WORKSHOP_USER environment variable
 export WORKSHOP_USER
 
-# Clean up any remaining tar files
-rm -f openshift-client-linux.tar.gz tkn-linux-amd64.tar.gz LICENSE README.md
+rm -f openshift-client-linux.tar.gz README.md tkn-linux-amd64.tar.gz LICENSE
 
 # Update the PipelineRun.yaml file
 yq e ".metadata.generateName = \"$WORKSHOP_USER-dotnet-app-\"" -i GitOps/PipelineRun.yaml

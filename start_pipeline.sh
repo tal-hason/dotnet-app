@@ -67,6 +67,13 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+# Sync the Argo CD application
+argocd app sync $WORKSHOP_USER-dotnet-app
+if [ $? -ne 0 ]; then
+  echo "Error: Argo CD sync failed."
+  exit 1
+fi
+
 # Get the OpenShift Ingress host and construct the application link
 APP_LINK="https://$(oc get ingress $WORKSHOP_USER-dotnet-app -n $WORKSHOP_USER-application -o yaml | yq '.spec.rules[0].host')/swagger/index.html"
 if [ -z "$APP_LINK" ]; then
