@@ -1,11 +1,10 @@
 global:
   ## Override the release name
-  nameOverride: user#
+  nameOverride: user25
   serviceName: dotnet-app
-  namespace: user#-application
+  namespace: user25-application
   runTime: dotnet
-  ClusterFqdn: 
-
+  ClusterFqdn: cluster-5shjw.dynamic.redhatworkshops.io
 image:
   ## Name of the image you want to build/deploy
   ## Defaults to the release name
@@ -47,7 +46,6 @@ deploy:
       caCertificate:
       certificate:
       destinationCACertificate:
-
   ## Freeform Liveness Probe. More information: https://docs.openshift.com/container-platform/4.6/applications/application-health.html#application-health-about_application-health
   livenessProbe:
     httpGet:
@@ -104,7 +102,6 @@ deploy:
 
   ## Freeform containers: More information: https://kubernetes.io/docs/concepts/workloads/pods/#pod-templates
   extraContainers:
-  #  - name: my-extra-container
-  #    command: ["sleep", "infinity"]
-  #    image: registry.redhat.io/ubi8/ubi-minimal
-
+#  - name: my-extra-container
+#    command: ["sleep", "infinity"]
+#    image: registry.redhat.io/ubi8/ubi-minimal

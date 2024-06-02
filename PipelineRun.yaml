@@ -1,19 +1,20 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  generateName: dotnet-app-
+  generateName: user25-dotnet-app-
 spec:
   params:
     - name: GIT_URL
-      value: 'https://github.com/__GIT-HUB-USER__/dotnet-app.git'
+      value: 'https://github.com/tal-hason/dotnet-app.git'
     - name: REGISTRY
-      value: __GIT-HUB-USER__
+      value: tal-hason
     - name: IMAGE_NAME
       value: dotnet-app
     - name: IMAGE_TAG
       value: v0
+    - value: user25-application
   pipelineRef:
-    name: __USER#__-dotnet-app
+    name: user25-dotnet-app
   taskRunTemplate:
     serviceAccountName: pipeline
   timeouts:
@@ -30,4 +31,3 @@ spec:
             requests:
               storage: 150Mi
           volumeMode: Filesystem
-
