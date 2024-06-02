@@ -1,15 +1,15 @@
 global:
   ## Override the release name
-  nameOverride: user25
+  nameOverride: user#
   serviceName: dotnet-app
-  namespace: user25-application
+  namespace: user#-application
   runTime: dotnet
 image:
   ## Name of the image you want to build/deploy
   ## Defaults to the release name
-  name: ghcr.io/tal-hason/dotnet-app
+  name: quay.io/argocicd/hello-world
   ## Tag that you want to build/deploy
-  tag: v11
+  tag: ver_01de20
 ## Application/Deployment-specific values (For configuring Deployment, Service, Route, ConfigMap, etc)
 deploy:
   ## Number of pod replicas to deploy
@@ -24,7 +24,7 @@ deploy:
   #    memory: 128Mi
   ingress:
     enabled: true
-    Domain: apps.cluster-5shjw.dynamic.redhatworkshops.io
+    Domain: __DOMAIN__
     ## More information: https://docs.openshift.com/container-platform/4.6/networking/routes/secured-routes.html
     tls:
       enabled: true
