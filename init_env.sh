@@ -47,11 +47,11 @@ export WORKSHOP_USER
 rm openshift-client-linux.tar.gz README.md tkn-linux-amd64.tar.gz LICENSE
 
 # Update the PipelineRun.yaml file
-yq e ".metadata.generateName = \"$WORKSHOP_USER-dotnet-app-\"" -i PipelineRun.yaml
-yq e ".spec.params[0].value = \"$GIT_REPO_URL\"" -i PipelineRun.yaml
-yq e ".spec.params[1].value = \"$GITHUB_USERNAME\"" -i PipelineRun.yaml
-yq e ".spec.params[4].value = \"$WORKSHOP_USER-application\"" -i PipelineRun.yaml
-yq e ".spec.pipelineRef.name = \"$WORKSHOP_USER-dotnet-app\"" -i PipelineRun.yaml
+yq e ".metadata.generateName = \"$WORKSHOP_USER-dotnet-app-\"" -i GitOps/PipelineRun.yaml
+yq e ".spec.params[0].value = \"$GIT_REPO_URL\"" -i GitOps/PipelineRun.yaml
+yq e ".spec.params[1].value = \"$GITHUB_USERNAME\"" -i GitOps/PipelineRun.yaml
+yq e ".spec.params[4].value = \"$WORKSHOP_USER-application\"" -i GitOps/PipelineRun.yaml
+yq e ".spec.pipelineRef.name = \"$WORKSHOP_USER-dotnet-app\"" -i GitOps/PipelineRun.yaml
 
 # Update the argo-app.yaml file
 yq e ".spec.destination.namespace = \"$WORKSHOP_USER-application\"" -i GitOps/Argo-App.yaml
