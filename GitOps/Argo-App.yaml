@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: application
+spec:
+  destination:
+    namespace: user#-application
+    server: 'https://kubernetes.default.svc'
+  project: default
+  sources:
+    - path: Argocd-instances/application
+      repoURL: 'https://github.com/tal-hason/dotnet-workshop-setup.git'
+      targetRevision: main
+      helm:
+        valueFiles:
+        - $values/GitOps/values.yaml
+    - repoURL:
+      targetRevision: main
+      ref: values
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
