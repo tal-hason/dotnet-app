@@ -38,7 +38,7 @@ deploy:
     targetPort: "8080"
     ## More information: https://docs.openshift.com/container-platform/4.6/networking/routes/secured-routes.html
     tls:
-      enabled: false
+      enabled: true
       termination: edge
       insecureEdgeTerminationPolicy: Allow
       ## IMPORTANT: Do not check 'key' into git!
