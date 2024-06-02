@@ -8,9 +8,9 @@ global:
 image:
   ## Name of the image you want to build/deploy
   ## Defaults to the release name
-  name: quay.io/thason/hello-app
+  name: quay.io/argocicd/hello-world
   ## Tag that you want to build/deploy
-  tag: v7
+  tag: ver_01de20
 ## Application/Deployment-specific values (For configuring Deployment, Service, Route, ConfigMap, etc)
 deploy:
   ## Number of pod replicas to deploy
