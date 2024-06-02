@@ -4,17 +4,17 @@ metadata:
   name: application
 spec:
   destination:
-    namespace: user25-application
-    server: 'https://kubernetes.default.svc'
+    namespace: user#-application
+    server: "https://kubernetes.default.svc"
   project: default
   sources:
     - path: Argocd-instances/application
-      repoURL: 'https://github.com/tal-hason/dotnet-workshop-setup.git'
+      repoURL: "https://github.com/tal-hason/dotnet-workshop-setup.git"
       targetRevision: main
       helm:
         valueFiles:
           - $values/GitOps/values.yaml
-    - repoURL: 'https://github.com/tal-hason/dotnet-app.git'
+    - repoURL: "___GIT-REPO___"
       targetRevision: main
       ref: values
   syncPolicy:
