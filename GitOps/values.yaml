@@ -64,10 +64,6 @@ deploy:
 
   ## Freeform env. More information: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/
   env:
-    - name: IMAGE
-      value: quay.io/thason/gitops-demo
-    - name: TAG
-      value: 'e28dc8ebfb4934cf1362f87285ebb7c2f1faf4cf'
   ## Freeform envFrom. More information: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
   envFrom:
   #  - configMapRef:
