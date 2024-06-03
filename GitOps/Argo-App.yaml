@@ -4,7 +4,7 @@ metadata:
   name: application
 spec:
   destination:
-    namespace: user#-application
+    namespace: user25-application
     server: "https://kubernetes.default.svc"
   project: default
   sources:
@@ -14,7 +14,7 @@ spec:
       helm:
         valueFiles:
           - $values/GitOps/values.yaml
-    - repoURL: "___GIT-REPO___"
+    - repoURL: "https://github.com/tal-hason/dotnet-app.git"
       targetRevision: main
       ref: values
   syncPolicy:

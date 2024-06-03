@@ -53,7 +53,7 @@ mkdir -p $RUNS_DIR
 
 # Download and extract the necessary binaries
 download_and_extract "https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/openshift-client-linux.tar.gz" "oc"
-download_and_extract "https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64" "yq_linux_amd64"
+download_and_extract "https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64" "yq"
 download_and_extract "https://mirror.openshift.com/pub/openshift-v4/clients/pipeline/latest/tkn-linux-amd64.tar.gz" "tkn"
 download_and_extract "https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64" "argocd"
 
