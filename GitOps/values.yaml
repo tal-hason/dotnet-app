@@ -65,13 +65,13 @@ deploy:
   ## Application properties file for configuring the app
   applicationProperties:
     ## Determines if application properties should be created in a configmap and mounted to the application container
-    enabled: false
+    enabled: true
     ## Location to mount the properties file
-    mountPath: /deployments/config/
+    mountPath: /tmp/
     ## Application properties file contents
     fileName: application.properties
     properties: |-
-      ## Properties go here
+      some config for the app
   ## Freeform volume mounts. More information: https://kubernetes.io/docs/concepts/storage/volumes/
   volumeMounts:
   #  - name: my-config
