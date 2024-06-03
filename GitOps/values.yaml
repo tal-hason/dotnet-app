@@ -1,8 +1,8 @@
 global:
   ## Override the release name
-  nameOverride: user25
+  nameOverride: user16
   serviceName: dotnet-app
-  namespace: user25-application
+  namespace: user16-application
   runTime: dotnet
 image:
   ## Name of the image you want to build/deploy

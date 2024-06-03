@@ -107,10 +107,10 @@ oc create secret docker-registry ghcr-secret \
     -n $WORKSHOP_USER-argocd
 
 # Patch the serviceAccount pipeline to use the imagePull Secret
-oc patch serviceaccount pipeline -p '{"imagePullSecrets":[{"name":"ghcr-secret"}]}'
+oc patch serviceaccount pipeline -p '{"imagePullSecrets":[{"name":"ghcr-secret"}]}' -n $WORKSHOP_USER-argocd
 
 # Add the created secret as a secret to the service account
-oc patch serviceaccount pipeline -p '{"secrets":[{"name":"ghcr-secret"}]}'
+oc patch serviceaccount pipeline -p '{"secrets":[{"name":"ghcr-secret"}]}' -n $WORKSHOP_USER-argocd
 
 # Commit latest changes
 git commit -am "Init Env ended"
