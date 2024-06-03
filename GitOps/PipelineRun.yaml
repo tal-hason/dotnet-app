@@ -11,7 +11,7 @@ spec:
     - name: IMAGE_NAME
       value: dotnet-app
     - name: IMAGE_TAG
-      value: v0
+      value: v1
     - value: user16-application
   pipelineRef:
     name: user16-dotnet-app
