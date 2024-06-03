@@ -9,7 +9,7 @@ image:
   ## Defaults to the release name
   name: ghcr.io/sorelsh/dotnet-app
   ## Tag that you want to build/deploy
-  tag: v2
+  tag: v3
 ## Application/Deployment-specific values (For configuring Deployment, Service, Route, ConfigMap, etc)
 deploy:
   ## Number of pod replicas to deploy
