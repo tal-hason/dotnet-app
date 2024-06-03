@@ -98,6 +98,8 @@ oc project $WORKSHOP_USER-application
 # Apply the Argo CD application
 oc apply -f GitOps/Argo-App.yaml -n $WORKSHOP_USER-argocd
 
+oc delete secret ghcr-secret -n $WORKSHOP_USER-argocd
+
 # Create the k8s imagePull Secret for ghcr.io
 oc create secret docker-registry ghcr-secret \
     --docker-server=ghcr.io \
