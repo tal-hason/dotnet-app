@@ -6,11 +6,11 @@ USER root
 WORKDIR /app
 
 # Copy the project file and restore dependencies
-COPY my-app.Service/*.csproj ./
+COPY ../my-app.Service/*.csproj ./
 RUN dotnet restore
 
 # Copy the rest of the source code
-COPY my-app.Service/ ./
+COPY ../my-app.Service/ ./
 
 # Build the application
 RUN dotnet publish -c Release -o out
