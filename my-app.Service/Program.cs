@@ -25,14 +25,19 @@ app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1")
 
 app.UseHttpsRedirection();
 
-app.UseStaticFiles(); // <-- Add this
+app.UseStaticFiles();
+
+app.MapGet("/", context =>
+{
+    context.Response.Redirect("/hello");
+    return Task.CompletedTask;
+});
 
 app.MapGet("/hello", async context =>
 {
     context.Response.ContentType = "text/html";
     await context.Response.SendFileAsync(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "hello.html"));
 });
-
 
 app.MapControllers();
 
